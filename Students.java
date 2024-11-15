@@ -17,7 +17,6 @@ public class Students {
         }
     }
 
-
     private void studentData() {
         System.out.print("Enter the Student name: ");
         String name = sc.next();
@@ -73,6 +72,7 @@ public class Students {
 
     private void display() {
         List<String> expectedSubjects = gatherAllSubjects();
+
 
         for (String subject : expectedSubjects) {
             System.out.printf("%-45s", subject);
