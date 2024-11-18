@@ -35,7 +35,7 @@ Stream.of(sc.next()).filter(input -> input.equalsIgnoreCase("yes"))
     }
 
     private void addSubjects(int ID) {
-        Map<String, Integer> subjectsAndMarks = new HashMap<>();
+        Map<String, Integer> subjectsMarks = new HashMap<>();
 
         do {
             System.out.print("Enter the subject name: ");
@@ -43,14 +43,13 @@ Stream.of(sc.next()).filter(input -> input.equalsIgnoreCase("yes"))
             System.out.print("Enter marks for " + subject + ": ");
             int marks = sc.nextInt();
 
-            subjectsAndMarks.put(subject, marks);
+            subjectsMarks.put(subject, marks);
 
             System.out.print("Do you want to add another subject: ");
         }
         while (!sc.next().equalsIgnoreCase("no"));
 
-
-        studentSubjects.put(ID, subjectsAndMarks);
+        studentSubjects.put(ID, subjectsMarks);
 
         System.out.print("Do you want to add another student: ");
         if (sc.next().equalsIgnoreCase("yes")) {
@@ -72,12 +71,9 @@ Stream.of(sc.next()).filter(input -> input.equalsIgnoreCase("yes"))
                 .sorted()
                 .toList();
 
-
         System.out.printf("%-30s %-10s", " Name", "ID");
         subjectList.forEach(subject -> System.out.printf("%-20s", subject));
         System.out.println();
-
-
 
         studentInfo.entrySet().stream()
                 .forEach(entry -> {
