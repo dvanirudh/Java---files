@@ -27,11 +27,11 @@ Stream.of(sc.next()).filter(input -> input.equalsIgnoreCase("yes"))
         studentInfo.put(ID, name);
 
         System.out.print("Do you want to add subject details: ");
-        if (sc.next().equalsIgnoreCase("yes")) {
-            addSubjects(ID);
-        } else {
-            display();
-        }
+        Stream.of(sc.next()).filter(input -> input.equalsIgnoreCase("yes"))
+                .findFirst()
+                .ifPresentOrElse(
+                        input -> addSubjects(ID),
+                        () -> display());
     }
 
     private void addSubjects(int ID) {
@@ -41,7 +41,13 @@ Stream.of(sc.next()).filter(input -> input.equalsIgnoreCase("yes"))
             System.out.print("Enter the subject name: ");
             String subject = sc.next();
             System.out.print("Enter marks for " + subject + ": ");
-            int marks = sc.nextInt();
+            int marks = Stream.generate( () -> {
+                return sc.nextInt();
+            }).filter(m -> m>=0 && m<=100)
+                            .findFirst()
+                                    . get();
+
+
 
             subjectsMarks.put(subject, marks);
 
@@ -59,17 +65,17 @@ Stream.of(sc.next()).filter(input -> input.equalsIgnoreCase("yes"))
         }
     }
 
-    private Set<String> gatherAllSubjects() {
+    private List<String> gatherAllSubjects() {
         return studentSubjects.values().stream()
                 .flatMap(subjects -> subjects.keySet().stream())
-                .collect(Collectors.toSet());
+                .distinct()
+                .collect(Collectors.toList());
     }
 
 
     private void display() {
-        List<String> subjectList = gatherAllSubjects().stream()
-                .sorted()
-                .toList();
+        List<String> subjectList = gatherAllSubjects();
+
 
         System.out.printf("%-30s %-10s", " Name", "ID");
         subjectList.forEach(subject -> System.out.printf("%-20s", subject));
@@ -88,5 +94,5 @@ Stream.of(sc.next()).filter(input -> input.equalsIgnoreCase("yes"))
                       });
                       System.out.println();
                   });
+        }
     }
-}
